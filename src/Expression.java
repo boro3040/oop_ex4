@@ -67,8 +67,21 @@ public interface Expression {
     Expression norify();
 
     /**
+     * Returned a simplified version of the current expression.
+     * @return The simple version of the Expression.
+     */
+    Expression simplify();
+
+    /**
      * Create a copy of this expression.
      * @return A copy of this expression.
      */
     Expression copy();
+
+    /**
+     * Checks if 2 Expressions is equals based on their Strings.
+     * @param expression the second Expression we want to compare to.
+     * @return true if their string are equal, false otherwise.
+     */
+    boolean equals(Expression expression);
 }

@@ -42,4 +42,26 @@ public class And extends UnaryExpression {
         Expression norRight = this.getRightExp().norify();
         return new Nor(new Nor(norLeft, norLeft), new Nor(norRight, norRight));
     }
+
+    @Override
+    public Expression simplify() {
+        Expression newExp = super.simplify();
+        if (newExp.equals(new Val(true)) | newExp.equals(new Val(false))) {
+            return newExp;
+        }
+
+        Expression newLeft = this.getLeftExp().simplify();
+        Expression newRight = this.getRightExp().simplify();
+        if (newLeft.equals(new Val(true))) {
+            return  newRight;
+        } else if (newRight.equals(new Val(true))) {
+            return  newLeft;
+        } else if (newLeft.equals(new Val(false)) | newRight.equals(new Val(false))) {
+            return new Val(false);
+        } else if (newLeft.equals(newRight)) {
+            return newLeft;
+        }
+
+        return new And(newLeft, newRight);
+    }
 }

@@ -43,4 +43,26 @@ public class Nor extends UnaryExpression {
         Expression norRight = this.getRightExp().norify();
         return new Nor(norLeft, norRight);
     }
+
+    @Override
+    public Expression simplify() {
+        Expression newExp = super.simplify();
+        if (newExp.equals(new Val(true)) | newExp.equals(new Val(false))) {
+            return newExp;
+        }
+
+        Expression newLeft = this.getLeftExp().simplify();
+        Expression newRight = this.getRightExp().simplify();
+        if (newLeft.equals(new Val(true)) | newRight.equals(new Val(true))) {
+            return  new Val(false);
+        } else if (newLeft.equals(new Val(false))) {
+            return new Not(newRight);
+        } else if (newRight.equals(new Val(false))) {
+            return new Not(newLeft);
+        } else if (newLeft.equals(newRight)) {
+            return new Not(newLeft);
+        }
+
+        return new Nor(newLeft, newRight);
+    }
 }

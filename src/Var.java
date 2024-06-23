@@ -69,6 +69,11 @@ public class Var implements Expression {
     }
 
     @Override
+    public Expression simplify() {
+        return new Var(this.getVar());
+    }
+
+    @Override
     public Expression copy() {
         return new Var(this.var);
     }
@@ -87,5 +92,10 @@ public class Var implements Expression {
      */
     protected void setVar(String var) {
         this.var = var;
+    }
+
+    @Override
+    public boolean equals(Expression expression) {
+        return this.toString().equals(expression.toString());
     }
 }

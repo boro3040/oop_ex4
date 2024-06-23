@@ -39,6 +39,16 @@ public abstract class BaseExpression implements Expression {
         return Util.union(this.leftExp.getVariables(), this.rightExp.getVariables());
     }
 
+    @Override
+    public Expression simplify() {
+        try {
+            Boolean value = this.evaluate();
+            return new Val(value);
+        } catch (Exception e) {
+            return this.copy();
+        }
+    }
+
     /**
      * Abstract method to be implemented by subclasses to create
      * a new instance of the same type.
@@ -94,5 +104,10 @@ public abstract class BaseExpression implements Expression {
      */
     protected void setSign(String sign) {
         this.sign = sign;
+    }
+
+    @Override
+    public boolean equals(Expression expression) {
+        return this.toString().equals(expression.toString());
     }
 }

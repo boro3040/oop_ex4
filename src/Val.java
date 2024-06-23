@@ -4,6 +4,7 @@ Barak Davidovitch
 oop - ex4
  */
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class Val implements Expression {
 
     @Override
     public List<String> getVariables() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -62,6 +63,11 @@ public class Val implements Expression {
     }
 
     @Override
+    public Expression simplify() {
+        return new Val(this.getVal());
+    }
+
+    @Override
     public Expression copy() {
         return new Val(this.val);
     }
@@ -80,5 +86,10 @@ public class Val implements Expression {
      */
     protected void setVal(Boolean val) {
         this.val = val;
+    }
+
+    @Override
+    public boolean equals(Expression expression) {
+        return this.toString().equals(expression.toString());
     }
 }

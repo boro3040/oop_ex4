@@ -42,4 +42,26 @@ public class Or extends UnaryExpression {
         Expression norRight = this.getRightExp().norify();
         return new Nor(new Nor(norLeft, norRight), new Nor(norLeft, norRight));
     }
+
+    @Override
+    public Expression simplify() {
+        Expression newExp = super.simplify();
+        if (newExp.equals(new Val(true)) | newExp.equals(new Val(false))) {
+            return newExp;
+        }
+
+        Expression newLeft = this.getLeftExp().simplify();
+        Expression newRight = this.getRightExp().simplify();
+        if (newLeft.equals(new Val(false))) {
+            return  newRight;
+        } else if (newRight.equals(new Val(false))) {
+            return  newLeft;
+        } else if (newLeft.equals(new Val(true)) | newRight.equals(new Val(true))) {
+            return new Val(true);
+        } else if (newLeft.equals(newRight)) {
+            return newLeft;
+        }
+
+        return new Or(newLeft, newRight);
+    }
 }

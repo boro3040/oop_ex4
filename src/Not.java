@@ -39,4 +39,15 @@ public class Not extends BinaryExpression {
         Expression norLeft = this.getLeftExp().norify();
         return new Nor(norLeft, norLeft);
     }
+
+    @Override
+    public Expression simplify() {
+        Expression newExp = super.simplify();
+        if (newExp.equals(new Val(true)) | newExp.equals(new Val(false))) {
+            return newExp;
+        }
+
+        Expression newLeft = this.getLeftExp().simplify();
+        return new Not(newLeft);
+    }
 }
