@@ -28,4 +28,19 @@ public class Nor extends UnaryExpression {
     protected Expression createNewInstance(Expression newLeft, Expression newRight) {
         return new Nor(newLeft, newRight);
     }
+
+    @Override
+    public Expression nandify() {
+        Expression nandLeft = this.getLeftExp().nandify();
+        Expression nandRight = this.getRightExp().nandify();
+        return new Nor(new Nor(new Nor(nandLeft, nandLeft), new Nor(nandRight, nandRight)),
+                new Nor(new Nor(nandLeft, nandLeft), new Nor(nandRight, nandRight)));
+    }
+
+    @Override
+    public Expression norify() {
+        Expression norLeft = this.getLeftExp().norify();
+        Expression norRight = this.getRightExp().norify();
+        return new Nor(norLeft, norRight);
+    }
 }

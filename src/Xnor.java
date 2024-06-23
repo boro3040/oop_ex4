@@ -28,4 +28,20 @@ public class Xnor extends UnaryExpression {
     protected Expression createNewInstance(Expression newLeft, Expression newRight) {
         return new Xnor(newLeft, newRight);
     }
+
+    @Override
+    public Expression nandify() {
+        Expression nandLeft = this.getLeftExp().nandify();
+        Expression nandRight = this.getRightExp().nandify();
+        return new Nand(new Nand(new Nand(nandLeft, nandLeft),
+                        new Nand(nandRight, nandRight)), new Nand(nandLeft, nandRight));
+    }
+
+    @Override
+    public Expression norify() {
+        Expression norLeft = this.getLeftExp().norify();
+        Expression norRight = this.getRightExp().norify();
+        return new Nor(new Nor(norLeft, new Nor(norLeft, norRight)),
+                        new Nor(norRight, new Nor(norLeft, norRight)));
+    }
 }

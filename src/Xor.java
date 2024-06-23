@@ -28,4 +28,20 @@ public class Xor extends UnaryExpression {
     protected Expression createNewInstance(Expression newLeft, Expression newRight) {
         return new Xor(newLeft, newRight);
     }
+
+    @Override
+    public Expression nandify() {
+        Expression nandLeft = this.getLeftExp().nandify();
+        Expression nandRight = this.getRightExp().nandify();
+        return new Nand(new Nand(nandLeft, new Nand(nandLeft, nandRight)),
+                        new Nand(nandRight, new Nand(nandLeft, nandRight)));
+    }
+
+    @Override
+    public Expression norify() {
+        Expression norLeft = this.getLeftExp().norify();
+        Expression norRight = this.getRightExp().norify();
+        return new Nor(new Nor(new Nor(norLeft, norLeft),
+                        new Nor(norRight, norRight)), new Nor(norLeft, norRight));
+    }
 }

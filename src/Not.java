@@ -27,4 +27,16 @@ public class Not extends BinaryExpression {
     protected Expression createNewInstance(Expression newLeft, Expression newRight) {
         return new Not(newLeft);
     }
+
+    @Override
+    public Expression nandify() {
+        Expression nandLeft = this.getLeftExp().nandify();
+        return new Nand(nandLeft, nandLeft);
+    }
+
+    @Override
+    public Expression norify() {
+        Expression norLeft = this.getLeftExp().norify();
+        return new Nor(norLeft, norLeft);
+    }
 }

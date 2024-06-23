@@ -59,6 +59,16 @@ public class Var implements Expression {
     }
 
     @Override
+    public Expression nandify() {
+        return this.copy();
+    }
+
+    @Override
+    public Expression norify() {
+        return this.copy();
+    }
+
+    @Override
     public Expression copy() {
         return new Var(this.var);
     }
